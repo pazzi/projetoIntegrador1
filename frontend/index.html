@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Padaria Nutri</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Padaria Nutri</h1>
+        <div id="user-info"></div>
+      </header>
+
+      <main>
+        <!-- Tela de Login/Cadastro -->
+        <section id="auth-section" class="active">
+          <div class="auth-forms">
+            <div id="login-form">
+              <h2>Login</h2>
+              <form id="loginForm">
+                <input
+                  type="email"
+                  id="loginEmail"
+                  placeholder="E-mail"
+                  required
+                />
+                <input
+                  type="password"
+                  id="loginPassword"
+                  placeholder="Senha"
+                  required
+                />
+                <button type="submit">Entrar</button>
+                <p>
+                  Não tem conta? <a href="#" id="showRegister">Cadastre-se</a>
+                </p>
+              </form>
+            </div>
+
+            <div id="register-form" class="hidden">
+              <h2>Cadastro</h2>
+              <form id="registerForm">
+                <input
+                  type="text"
+                  id="registerName"
+                  placeholder="Nome completo"
+                  required
+                />
+                <input
+                  type="email"
+                  id="registerEmail"
+                  placeholder="E-mail"
+                  required
+                />
+                <input type="tel" id="registerPhone" placeholder="Telefone" />
+                <textarea
+                  id="registerAddress"
+                  placeholder="Endereço completo"
+                  required
+                ></textarea>
+                <input
+                  type="password"
+                  id="registerPassword"
+                  placeholder="Senha"
+                  required
+                />
+                <button type="submit">Cadastrar</button>
+                <p>Já tem conta? <a href="#" id="showLogin">Faça login</a></p>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Catálogo de Produtos -->
+        <section id="products-section" class="hidden">
+          <h2>Nossos Produtos</h2>
+          <div id="categories"></div>
+          <div id="products-list"></div>
+        </section>
+
+        <!-- Carrinho de Compras -->
+        <section id="cart-section" class="hidden">
+          <h2>Seu Carrinho</h2>
+          <div id="cart-items"></div>
+          <div id="cart-total">Total: R$ 0,00</div>
+          <button id="checkout-btn">Finalizar Pedido</button>
+          <button id="continue-shopping">Continuar Comprando</button>
+        </section>
+
+        <!-- Histórico de Pedidos -->
+        <section id="orders-section" class="hidden">
+          <h2>Seus Pedidos</h2>
+          <div id="orders-list"></div>
+          <button id="back-to-products">Voltar aos Produtos</button>
+        </section>
+      </main>
+    </div>
+
+    <script src="./js/scripts.js"></script>
+  </body>
+</html>

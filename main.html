@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padaria Nutri - Cadastro e Pedidos</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5dc;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #8b4513;
+            text-align: center;
+        }
+        
+        .form-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        h2 {
+            color: #a0522d;
+            margin-top: 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #a0522d;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background-color: #8b4513;
+        }
+        
+        .produto-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .produto-info {
+            flex-grow: 1;
+        }
+        
+        .quantidade-controle {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantidade-controle button {
+            padding: 5px 10px;
+            margin: 0 5px;
+        }
+        
+        #lista-pedidos {
+            margin-top: 20px;
+        }
+        
+        .pedido-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        
+        #total-pedido {
+            font-weight: bold;
+            font-size: 18px;
+            text-align: right;
+            margin-top: 10px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .success-message {
+            color: green;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Padaria Nutri</h1>
+        
+        <div id="cadastro-section" class="form-section">
+            <h2>Cadastro do Cliente</h2>
+            <form id="form-cadastro">
+                <label for="nome">Nome Completo:</label>
+                <input type="text" id="nome" required>
+                
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" required>
+                
+                <label for="telefone">Telefone:</label>
+                <input type="tel" id="telefone" required>
+                
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" required>
+                
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" required>
+                
+                <button type="submit">Cadastrar e Continuar</button>
+            </form>
+        </div>
+        
+        <div id="pedido-section" class="form-section hidden">
+            <h2>Faça seu Pedido</h2>
+            
+            <div id="lista-produtos">
+                <div class="produto-item">
+                    <div class="produto-info">
+                        <h3>Pão Integral</h3>
+                        <p>R$ 8,50 / unidade</p>
+                    </div>
+                    <div class="quantidade-controle">
+                        <button onclick="alterarQuantidade('pao-integral', -1)">-</button>
+                        <span id="quantidade-pao-integral">0</span>
+                        <button onclick="alterarQuantidade('pao-integral', 1)">+</button>
+                    </div>
+                </div>
+                
+                <div class="produto-item">
+                    <div class="produto-info">
+                        <h3>Bolo de Cenoura</h3>
+                        <p>R$ 25,00 / fatia</p>
+                    </div>
+                    <div class="quantidade-controle">
+                        <button onclick="alterarQuantidade('bolo-cenoura', -1)">-</button>
+                        <span id="quantidade-bolo-cenoura">0</span>
+                        <button onclick="alterarQuantidade('bolo-cenoura', 1)">+</button>
+                    </div>
+                </div>
+                
+                <div class="produto-item">
+                    <div class="produto-info">
+                        <h3>Croissant Integral</h3>
+                        <p>R$ 6,00 / unidade</p>
+                    </div>
+                    <div class="quantidade-controle">
+                        <button onclick="alterarQuantidade('croissant', -1)">-</button>
+                        <span id="quantidade-croissant">0</span>
+                        <button onclick="alterarQuantidade('croissant', 1)">+</button>
+                    </div>
+                </div>
+                
+                <div class="produto-item">
+                    <div class="produto-info">
+                        <h3>Torta de Frango</h3>
+                        <p>R$ 12,00 / fatia</p>
+                    </div>
+                    <div class="quantidade-controle">
+                        <button onclick="alterarQuantidade('torta-frango', -1)">-</button>
+                        <span id="quantidade-torta-frango">0</span>
+                        <button onclick="alterarQuantidade('torta-frango', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="lista-pedidos">
+                <h3>Seu Pedido:</h3>
+                <div id="itens-pedido">
+                    <!-- Itens do pedido serão inseridos aqui -->
+                </div>
+                <div id="total-pedido">Total: R$ 0,00</div>
+            </div>
+            
+            <button onclick="finalizarPedido()">Finalizar Pedido</button>
+        </div>
+        
+        <div id="confirmacao-section" class="form-section hidden">
+            <h2>Pedido Confirmado!</h2>
+            <div class="success-message">
+                Obrigado por seu pedido na Padaria Nutri!
+            </div>
+            <p id="detalhes-pedido"></p>
+            <p>Seu pedido será entregue no endereço cadastrado em breve.</p>
+            <button onclick="novoPedido()">Fazer Novo Pedido</button>
+        </div>
+    </div>
+
+    <script>
+        // Preços dos produtos
+        const precos = {
+            'pao-integral': 8.50,
+            'bolo-cenoura': 25.00,
+            'croissant': 6.00,
+            'torta-frango': 12.00
+        };
+        
+        // Quantidades dos produtos
+        const quantidades = {
+            'pao-integral': 0,
+            'bolo-cenoura': 0,
+            'croissant': 0,
+            'torta-frango': 0
+        };
+        
+        // Dados do cliente
+        let cliente = {};
+        
+        // Manipular o formulário de cadastro
+        document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coletar dados do formulário
+            cliente = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                endereco: document.getElementById('endereco').value,
+                senha: document.getElementById('senha').value
+            };
+            
+            // Esconder seção de cadastro e mostrar seção de pedidos
+            document.getElementById('cadastro-section').classList.add('hidden');
+            document.getElementById('pedido-section').classList.remove('hidden');
+            
+            // Aqui você poderia salvar os dados do cliente em um banco de dados
+            console.log('Cliente cadastrado:', cliente);
+        });
+        
+        // Função para alterar a quantidade de um produto
+        function alterarQuantidade(produto, alteracao) {
+            const novaQuantidade = quantidades[produto] + alteracao;
+            
+            // Não permitir quantidade negativa
+            if (novaQuantidade >= 0) {
+                quantidades[produto] = novaQuantidade;
+                document.getElementById(`quantidade-${produto}`).textContent = novaQuantidade;
+                atualizarPedido();
+            }
+        }
+        
+        // Função para atualizar a visualização do pedido
+        function atualizarPedido() {
+            const itensPedido = document.getElementById('itens-pedido');
+            itensPedido.innerHTML = '';
+            
+            let total = 0;
+            
+            for (const produto in quantidades) {
+                if (quantidades[produto] > 0) {
+                    const precoItem = quantidades[produto] * precos[produto];
+                    total += precoItem;
+                    
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'pedido-item';
+                    
+                    // Converter o ID do produto para um nome legível
+                    let nomeProduto = '';
+                    switch(produto) {
+                        case 'pao-integral': nomeProduto = 'Pão Integral'; break;
+                        case 'bolo-cenoura': nomeProduto = 'Bolo de Cenoura'; break;
+                        case 'croissant': nomeProduto = 'Croissant Integral'; break;
+                        case 'torta-frango': nomeProduto = 'Torta de Frango'; break;
+                    }
+                    
+                    itemDiv.innerHTML = `
+                        ${quantidades[produto]}x ${nomeProduto} - R$ ${precoItem.toFixed(2)}
+                    `;
+                    
+                    itensPedido.appendChild(itemDiv);
+                }
+            }
+            
+            document.getElementById('total-pedido').textContent = `Total: R$ ${total.toFixed(2)}`;
+        }
+        
+        // Função para finalizar o pedido
+        function finalizarPedido() {
+            // Verificar se há itens no pedido
+            let total = 0;
+            for (const produto in quantidades) {
+                total += quantidades[produto] * precos[produto];
+            }
+            
+            if (total === 0) {
+                alert('Adicione itens ao seu pedido antes de finalizar!');
+                return;
+            }
+            
+            // Mostrar seção de confirmação
+            document.getElementById('pedido-section').classList.add('hidden');
+            document.getElementById('confirmacao-section').classList.remove('hidden');
+            
+            // Gerar detalhes do pedido
+            let detalhesPedido = `<strong>Cliente:</strong> ${cliente.nome}<br>`;
+            detalhesPedido += `<strong>Endereço de entrega:</strong> ${cliente.endereco}<br><br>`;
+            detalhesPedido += `<strong>Itens do pedido:</strong><br>`;
+            
+            for (const produto in quantidades) {
+                if (quantidades[produto] > 0) {
+                    // Converter o ID do produto para um nome legível
+                    let nomeProduto = '';
+                    switch(produto) {
+                        case 'pao-integral': nomeProduto = 'Pão Integral'; break;
+                        case 'bolo-cenoura': nomeProduto = 'Bolo de Cenoura'; break;
+                        case 'croissant': nomeProduto = 'Croissant Integral'; break;
+                        case 'torta-frango': nomeProduto = 'Torta de Frango'; break;
+                    }
+                    
+                    detalhesPedido += `${quantidades[produto]}x ${nomeProduto} - R$ ${(quantidades[produto] * precos[produto]).toFixed(2)}<br>`;
+                }
+            }
+            
+            detalhesPedido += `<br><strong>Total do pedido:</strong> R$ ${total.toFixed(2)}`;
+            
+            document.getElementById('detalhes-pedido').innerHTML = detalhesPedido;
+            
+            // Aqui você poderia enviar o pedido para um servidor ou banco de dados
+            console.log('Pedido finalizado:', {cliente, pedido: {...quantidades}, total});
+            
+            // Zerar as quantidades para um possível novo pedido
+            for (const produto in quantidades) {
+                quantidades[produto] = 0;
+                document.getElementById(`quantidade-${produto}`).textContent = '0';
+            }
+        }
+        
+        // Função para iniciar um novo pedido
+        function novoPedido() {
+            document.getElementById('confirmacao-section').classList.add('hidden');
+            document.getElementById('pedido-section').classList.remove('hidden');
+            document.getElementById('itens-pedido').innerHTML = '';
+            document.getElementById('total-pedido').textContent = 'Total: R$ 0,00';
+        }
+    </script>
+</body>
+</html>
